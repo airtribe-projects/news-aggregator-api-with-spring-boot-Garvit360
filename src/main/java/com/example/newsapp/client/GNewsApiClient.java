@@ -1,8 +1,7 @@
 package com.example.newsapp.client;
 
-
 import com.example.newsapp.model.dto.NewsArticleDTO;
-import org.springframework.beans.factory.annotation.Value;
+import com.example.newsapp.config.GNewsProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -18,11 +17,11 @@ import java.util.concurrent.CompletableFuture;
 public class GNewsApiClient implements NewsApiClient {
 
     private final WebClient webClient;
-    private final String apiKey;
+    private final GNewsProperties gNewsProperties;
 
-    public GNewsApiClient(WebClient webClient, @Value("${gnews.key}") String apiKey) {
+    public GNewsApiClient(WebClient webClient, GNewsProperties gNewsProperties) {
         this.webClient = webClient;
-        this.apiKey = apiKey;
+        this.gNewsProperties = gNewsProperties;
     }
 
     @Override
@@ -45,7 +44,7 @@ public class GNewsApiClient implements NewsApiClient {
                     uriBuilder = uriBuilder.scheme("https")
                             .host("gnews.io")
                             .path("/api/v4" + path)
-                            .queryParam("token", apiKey)
+                            .queryParam("token", gNewsProperties.getKey())
                             .queryParam("lang", "en");
                     if (!query.isEmpty()) {
                         uriBuilder = uriBuilder.queryParam("q", URLEncoder.encode(query, StandardCharsets.UTF_8));

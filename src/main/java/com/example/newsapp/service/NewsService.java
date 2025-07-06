@@ -21,7 +21,8 @@ public class NewsService {
     @Cacheable(value = "news", key = "#preferences != null ? #preferences.toString() : 'all'")
     public List<NewsArticleDTO> getNews(List<String> preferences) {
         List<CompletableFuture<List<NewsArticleDTO>>> futures = apiClients.stream()
-                .map(client -> client.fetchNews(preferences, null))
+                .map(client -> client.fetchNews(preferences, null)
+                        .exceptionally(ex -> java.util.Collections.emptyList()))
                 .collect(Collectors.toList());
 
         return futures.stream()
@@ -33,7 +34,8 @@ public class NewsService {
     @Cacheable(value = "news", key = "#keyword")
     public List<NewsArticleDTO> searchNews(String keyword) {
         List<CompletableFuture<List<NewsArticleDTO>>> futures = apiClients.stream()
-                .map(client -> client.fetchNews(null, keyword))
+                .map(client -> client.fetchNews(null, keyword)
+                        .exceptionally(ex -> java.util.Collections.emptyList()))
                 .collect(Collectors.toList());
 
         return futures.stream()

@@ -1,0 +1,35 @@
+{
+  "groups": [
+    {
+      "name": "gnews",
+      "type": "com.example.newsapp.config.GNewsProperties",
+      "sourceType": "com.example.newsapp.config.GNewsProperties"
+    },
+    {
+      "name": "jwt",
+      "type": "com.example.newsapp.config.JwtProperties",
+      "sourceType": "com.example.newsapp.config.JwtProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "gnews.key",
+      "type": "java.lang.String",
+      "sourceType": "com.example.newsapp.config.GNewsProperties"
+    },
+    {
+      "name": "jwt.expiration",
+      "type": "java.lang.Long",
+      "sourceType": "com.example.newsapp.config.JwtProperties"
+    },
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "sourceType": "com.example.newsapp.config.JwtProperties"
+    }
+  ],
+  "hints": [],
+  "ignored": {
+    "properties": []
+  }
+}
