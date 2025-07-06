@@ -6,7 +6,6 @@ import com.example.newsapp.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +32,8 @@ public class UserService {
         user.setEmail(userDTO.getEmail());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setPreferences(new ArrayList<>());
+        user.setReadArticles(new ArrayList<>());
+        user.setFavoriteArticles(new ArrayList<>());
         return userRepository.save(user);
     }
 
@@ -52,5 +53,47 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         user.setPreferences(preferences);
         return userRepository.save(user);
+    }
+
+    public User markArticleAsRead(Long userId, String articleId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (user.getReadArticles() == null) {
+            user.setReadArticles(new ArrayList<>());
+        }
+
+        if (!user.getReadArticles().contains(articleId)) {
+            user.getReadArticles().add(articleId);
+        }
+
+        return userRepository.save(user);
+    }
+
+    public User markArticleAsFavorite(Long userId, String articleId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (user.getFavoriteArticles() == null) {
+            user.setFavoriteArticles(new ArrayList<>());
+        }
+
+        if (!user.getFavoriteArticles().contains(articleId)) {
+            user.getFavoriteArticles().add(articleId);
+        }
+
+        return userRepository.save(user);
+    }
+
+    public List<String> getReadArticles(Long userId) {
+        return userRepository.findById(userId)
+                .map(User::getReadArticles)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public List<String> getFavoriteArticles(Long userId) {
+        return userRepository.findById(userId)
+                .map(User::getFavoriteArticles)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

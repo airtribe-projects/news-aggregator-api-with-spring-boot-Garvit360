@@ -33,4 +33,39 @@ public class NewsController {
     public ResponseEntity<List<NewsArticleDTO>> searchNews(@PathVariable String keyword) {
         return ResponseEntity.ok(newsService.searchNews(keyword));
     }
-} 
+
+    @PostMapping("/{id}/read")
+    public ResponseEntity<String> markArticleAsRead(
+            @PathVariable String id,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.getUserByEmail(userDetails.getUsername());
+        userService.markArticleAsRead(user.getId(), id);
+        return ResponseEntity.ok("Article marked as read");
+    }
+
+    @PostMapping("/{id}/favorite")
+    public ResponseEntity<String> markArticleAsFavorite(
+            @PathVariable String id,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.getUserByEmail(userDetails.getUsername());
+        userService.markArticleAsFavorite(user.getId(), id);
+        return ResponseEntity.ok("Article marked as favorite");
+    }
+
+    @GetMapping("/read")
+    public ResponseEntity<List<NewsArticleDTO>> getReadArticles(@AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.getUserByEmail(userDetails.getUsername());
+        List<String> readArticleIds = userService.getReadArticles(user.getId());
+        List<NewsArticleDTO> readArticles = newsService.getReadArticles(readArticleIds, user.getPreferences());
+        return ResponseEntity.ok(readArticles);
+    }
+
+    @GetMapping("/favorites")
+    public ResponseEntity<List<NewsArticleDTO>> getFavoriteArticles(@AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.getUserByEmail(userDetails.getUsername());
+        List<String> favoriteArticleIds = userService.getFavoriteArticles(user.getId());
+        List<NewsArticleDTO> favoriteArticles = newsService.getFavoriteArticles(favoriteArticleIds,
+                user.getPreferences());
+        return ResponseEntity.ok(favoriteArticles);
+    }
+}

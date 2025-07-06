@@ -29,4 +29,10 @@ public class User {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> preferences;
-} 
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    private List<String> readArticles;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    private List<String> favoriteArticles;
+}
