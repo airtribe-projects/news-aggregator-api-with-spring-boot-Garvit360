@@ -1,6 +1,6 @@
 package com.example.newsapp.client;
 
-import com.example.newsapp.client.NewsApiClient;
+
 import com.example.newsapp.model.dto.NewsArticleDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

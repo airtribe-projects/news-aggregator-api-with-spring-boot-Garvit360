@@ -6,7 +6,7 @@ import com.example.newsapp.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+
 import java.util.ArrayList;
 import java.util.List;
 

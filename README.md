@@ -29,9 +29,3 @@ A Spring Boot application for aggregating news articles and managing user prefer
 - PUT /api/preferences
 - GET /api/news
 - GET /api/news/search/{keyword}
-
-## Configuration
-Configure `src/main/resources/application.properties` with your GNews API key and other settings.
-
-## License
-MIT 
