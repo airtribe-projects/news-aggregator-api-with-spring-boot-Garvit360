@@ -68,4 +68,4 @@ public class NewsController {
                 user.getPreferences());
         return ResponseEntity.ok(favoriteArticles);
     }
-}
+} 
